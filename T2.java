@@ -1,3 +1,5 @@
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +10,17 @@ public class T2{
   HashMap<String, Usuario> usuarios;
 
   public static void main(String[] args) throws IOException{
+    File file = new File("./cadastros.txt");
+    BufferedReader fr = new BufferedReader(new FileReader(file));
+    String line;
+    while(line != null){
+      line = fr.readLine();
+      if(line == "estudante"){
+        Usuario user = new Usuario
+      }
+
+    }
+
     input = new BufferedReader(new InputStreamReader(System.in));
 
     usuarios = new HashMap<String, Usuario>(); // matricula, obj
@@ -27,7 +40,7 @@ public class T2{
     if(usuarios.containsKey(matr)){
       System.out.println("Por favor insira sua senha: ");
       String senha = input.readLine();
-      if(usuarios.get(matr).getSenha == senha){
+      if(usuarios.get(matr).getSenha() == senha){
         return usuarios.get(matr);
       }
     }else{

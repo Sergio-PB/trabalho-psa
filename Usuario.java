@@ -4,7 +4,7 @@ public class Usuario{
   private int idade;
   private int cpf;
 
-  Pessoa(String nome, String sobrenome, int idade, int cpf){
+  Usuario(String nome, String sobrenome, int idade, int cpf){
     this.nome = nome;
     this.sobrenome = sobrenome;
     this.idade = idade;

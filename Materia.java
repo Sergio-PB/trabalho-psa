@@ -5,7 +5,6 @@ public class Materia{
   private String codigo;
   private Professor professor;
   private Vector<Estudante> alunos;
-  private HashMap<Estudante, Vector<Double>> notas;
 
   Materia(String nome, String codigo){
     this.nome = nome;
