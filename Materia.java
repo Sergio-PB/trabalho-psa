@@ -6,15 +6,14 @@ public class Materia{
   private Professor professor;
   private Vector<Estudante> alunos;
 
-  Materia(String nome, String codigo){
-    this.nome = nome;
-    this.codigo = codigo;
-  }
-
   Materia(String nome, String codigo, Professor professor){
     this.nome = nome;
     this.codigo = codigo;
     this.professor = professor;
+  }
+
+  Materia(String nome, String codigo){
+    Materia(nome, codigo, null);
   }
 
   String getNome(){
@@ -29,27 +28,16 @@ public class Materia{
     return this.professor;
   }
 
+  void setProfessor(Professor professor){
+    this.professor = professor;
+  }
+
   Vector<Estudante> getAlunos(){
     return this.alunos;
   }
-  void setNome(String nome){
-    this.nome = nome;
-  }
 
-  void setCodigo(String codigo){
-    this.codigo = codigo;
-  }
-
-  void cadastrarProfessor(Professor professor){
-    this.professor = professor;
-    professor.cadastrarMateria(this);
-    System.out.println("O professor da matéria "+this.nome+" agora é "+professor.getNomeCompleto()+".");
-  }
-
-  void cadastrarEstudante(Estudante estudante){
-    this.alunos.add(estudante);
-    estudante.cadastrarMateria(this);
-    System.out.println("O aluno "+estudante.getNomeCompleto()+" foi cadastrado com sucesso.");
+  void addEstudante(Estudante aluno){
+    this.alunos.add(aluno);
   }
 
   public String toString(){

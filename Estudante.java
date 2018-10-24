@@ -1,15 +1,17 @@
 import java.util.*;
 
 public class Estudante extends Usuario{
-  private int matricula;
-  private int senha;
   private Vector<Materia> materias;
-  private Vector<Integer> notas;
+  private HashMap<Materia, Vector<Integer>> notas;
 
-  Estudante(Usuario p, int matricula, int senha){
-    super(p.getNome(), p.getSobrenome(), p.getIdade(), p.getCpf());
-    this.matricula = matricula;
-    this.senha = senha;
+  Estudante(String nome, String sobrenome, int matricula, String senha){
+    super(nome, sobrenome, matricula, senha);
+    this.materias = new Vector<Materia>;
+    this.notas = new Vector<Materia, Vector<Integer>>;
+  }
+
+  Estudante(Usuario u){
+    Estudante(u.getNome(), u.getSobrenome(), u.getMatricula(), u.getSenha());
   }
 
   int getMatricula(){
@@ -20,24 +22,25 @@ public class Estudante extends Usuario{
     return this.materias;
   }
 
-  Vector<Integer> getNotas(){
+  void addMateria(Materia materia){
+    this.materias.add(materia);
+  }
+
+  HashMap<Materia, Vector<Integer>> getNotas(){
     return this.notas;
   }
 
-  void cadastrarMateria(Materia materia){
-    this.cadastrarMateria(materia, 0);
+  Vector<Integer> getNotas(Materia materia){
+    return this.notas.get(materia);
   }
 
-  void cadastrarMateria(Materia materia, int nota){
-    this.materias.add(materia);
-    this.notas.add(nota);
-    System.out.println("Nova matéria " + materia + " adicionada com sucesso!");
-    System.out.println("A nota dessa matéria é "+nota);
+  void setNota(Materia materia, Vector<Integer> notas){
+    this.notas = notas;
   }
 
-  void setNota(Materia materia, int nota){
-    this.notas.set(this.materias.indexOf(materia), nota);
-    System.out.println("A nota de "+materia+" agora é "+nota);
+  void fazPedido(Materia materia){
+    Pedido p = new Pedido(this, materia);
+    Chefe.novoPedido(p);
   }
 
   public String toString(){

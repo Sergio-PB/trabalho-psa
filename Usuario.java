@@ -1,14 +1,16 @@
 public class Usuario{
   private String nome;
   private String sobrenome;
-  private int idade;
-  private int cpf;
+  private int matricula;
+  private String senha;
 
-  Usuario(String nome, String sobrenome, int idade, int cpf){
+  Usuario(String nome, String sobrenome, int matricula, String senha){
     this.nome = nome;
     this.sobrenome = sobrenome;
-    this.idade = idade;
-    this.cpf = cpf;
+    this.matricula = matricula;
+    this.senha = senha;
+
+    abstract Vector<Materia> getMaterias();
   }
 
   String getNome(){
@@ -20,11 +22,11 @@ public class Usuario{
   String getNomeCompleto(){
     return this.nome + this.sobrenome;
   }
-  int getIdade(){
-    return this.idade;
+  int getMatricula(){
+    return this.matricula;
   }
-  int getCpf(){
-    return this.cpf;
+  int getSenha(){
+    return this.senha;
   }
 
   public String toString(){

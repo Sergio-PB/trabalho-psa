@@ -1,18 +1,17 @@
 import java.util.*;
 
 public class Professor extends Usuario{
-  private int matricula;
-  private int senha;
   private Vector<Materia> materias;
+  private int salario;
 
-  Professor(Usuario p, int matricula, int senha){
-    super(p.getNome(), p.getSobrenome(), p.getIdade(), p.getCpf());
-    this.matricula = matricula;
-    this.senha = senha;
+  Professor(Usuario u){
+    super(u.getNome(), u.getSobrenome(), u.getMatricula(), u.getSenha());
+    this.materias = new Vector<Materia>;
+    this.salario = null;
   }
 
-  int getMatricula(){
-    return this.matricula;
+  Professor(String nome, String sobrenome, int matricula, String senha){
+    Professor(new Usuario(nome, sobrenome, matricula, senha));
   }
 
   Vector<Materia> getMaterias(){
@@ -21,6 +20,19 @@ public class Professor extends Usuario{
 
   void cadastrarMateria(Materia materia){
     this.materias.add(materia);
+  }
+
+  Integer getSalario(){
+    return this.salario;
+  }
+
+  void setSalario(Integer salario){
+    this.salario = salario;
+  }
+
+  void setNota(Materia materia, Estudante aluno, Vector<Integer> nota){
+    materia.getAlunos().get(aluno).setNota(materia, nota);
+    System.out.println("O aluno "+aluno.getNome()+" tem notas "+aluno.getNota(materia)+" na materia "+materia+" agora.");
   }
 
   public String toString(){
