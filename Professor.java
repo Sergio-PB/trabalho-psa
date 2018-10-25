@@ -6,12 +6,12 @@ public class Professor extends Usuario{
 
   Professor(Usuario u){
     super(u.getNome(), u.getSobrenome(), u.getMatricula(), u.getSenha());
-    this.materias = new Vector<Materia>;
-    this.salario = null;
+    this.materias = new Vector();
+    this.salario = 8000;
   }
 
   Professor(String nome, String sobrenome, int matricula, String senha){
-    Professor(new Usuario(nome, sobrenome, matricula, senha));
+    this(new Usuario(nome, sobrenome, matricula, senha));
   }
 
   Vector<Materia> getMaterias(){
@@ -31,8 +31,8 @@ public class Professor extends Usuario{
   }
 
   void setNota(Materia materia, Estudante aluno, Vector<Integer> nota){
-    materia.getAlunos().get(aluno).setNota(materia, nota);
-    System.out.println("O aluno "+aluno.getNome()+" tem notas "+aluno.getNota(materia)+" na materia "+materia+" agora.");
+    aluno.setNota(materia, nota);
+    System.out.println("O aluno "+aluno.getNome()+" tem notas "+aluno.getNotas(materia)+" na materia "+materia+" agora.");
   }
 
   public String toString(){

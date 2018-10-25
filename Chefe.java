@@ -1,15 +1,15 @@
-public static class Chefe{
-  private final static String NOME;
-  private static Vector<Materia> listaDeMaterias;
-  private static Vector<Pedido> pedidos;
+import java.util.Vector;
 
-  Chefe(String nome, String sobrenome, int matricula, String senha){
-    Chefe(new Usuario(nome, sobrenome, matricula, senha));
-  }
+public class Chefe extends Administrador{
+  private static Vector<Materia> listaDeMaterias = new Vector();
+  private static Vector<Pedido> pedidos = new Vector();
 
   Chefe(Usuario u){
     super(u);
-    this.NOME = u.getNome();
+  }
+
+  Chefe(String nome, String sobrenome, int matricula, String senha){
+    this(new Usuario(nome, sobrenome, matricula, senha));
   }
 
   Vector<Materia> getMaterias(){
@@ -21,7 +21,7 @@ public static class Chefe{
     Chefe.listaDeMaterias.add(materia);
   }
 
-  void novoPedido(Pedido pedido){
+  static void novoPedido(Pedido pedido){
     Chefe.pedidos.add(pedido);
   }
 
@@ -29,6 +29,6 @@ public static class Chefe{
     Estudante estudante = pedido.getEstudante();
     Materia materia = pedido.getMateria();
     estudante.addMateria(materia);
-    System.out.println("O estudante "+estudante+" agora está cadastrado na materia "+estudante.getMaterias().get(materia)+".");
+    System.out.println("O estudante "+estudante+" agora está cadastrado na materia "+estudante.getMaterias().get(estudante.getMaterias().indexOf(materia))+".");
   }
 }

@@ -6,16 +6,12 @@ public class Estudante extends Usuario{
 
   Estudante(String nome, String sobrenome, int matricula, String senha){
     super(nome, sobrenome, matricula, senha);
-    this.materias = new Vector<Materia>;
-    this.notas = new Vector<Materia, Vector<Integer>>;
+    this.materias = new Vector();
+    this.notas = new HashMap();
   }
 
   Estudante(Usuario u){
-    Estudante(u.getNome(), u.getSobrenome(), u.getMatricula(), u.getSenha());
-  }
-
-  int getMatricula(){
-    return this.matricula;
+    this(u.getNome(), u.getSobrenome(), u.getMatricula(), u.getSenha());
   }
 
   Vector<Materia> getMaterias(){
@@ -35,7 +31,7 @@ public class Estudante extends Usuario{
   }
 
   void setNota(Materia materia, Vector<Integer> notas){
-    this.notas = notas;
+    this.notas.replace(materia, notas);
   }
 
   void fazPedido(Materia materia){
@@ -44,6 +40,6 @@ public class Estudante extends Usuario{
   }
 
   public String toString(){
-    return "Estudante "+this.getNomeCompleto()+" de matrícula "+this.matricula;
+    return "Estudante "+this.getNomeCompleto()+" de matrícula "+this.getMatricula();
   }
 }

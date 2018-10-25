@@ -3,7 +3,7 @@ public class Tesoureiro extends Administrador{
     super(u);
   }
   Tesoureiro(String nome, String sobrenome, int matricula, String senha){
-    Tesoureiro(new Usuario(nome, sobrenome, matricula, senha));
+    this(new Usuario(nome, sobrenome, matricula, senha));
   }
   void definirSalario(Professor professor){
     professor.salario = salario;

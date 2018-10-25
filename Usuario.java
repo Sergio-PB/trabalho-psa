@@ -1,16 +1,18 @@
+import java.util.Vector;
+
 public class Usuario{
   private String nome;
   private String sobrenome;
   private int matricula;
   private String senha;
 
+  Vector getMaterias(){return null;}
+
   Usuario(String nome, String sobrenome, int matricula, String senha){
     this.nome = nome;
     this.sobrenome = sobrenome;
     this.matricula = matricula;
     this.senha = senha;
-
-    abstract Vector<Materia> getMaterias();
   }
 
   String getNome(){
@@ -25,11 +27,11 @@ public class Usuario{
   int getMatricula(){
     return this.matricula;
   }
-  int getSenha(){
+  String getSenha(){
     return this.senha;
   }
 
   public String toString(){
-    return "Usuário "+this.getNomeCompleto() + " de "+this.idade+" anos, e CPF:"+this.cpf;
+    return "Usuário "+this.getNomeCompleto() + " de matricula "+this.matricula;
   }
 }

@@ -13,7 +13,7 @@ public class Materia{
   }
 
   Materia(String nome, String codigo){
-    Materia(nome, codigo, null);
+    this(nome, codigo, null);
   }
 
   String getNome(){
