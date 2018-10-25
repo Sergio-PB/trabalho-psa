@@ -9,6 +9,6 @@ public class Administrador extends Usuario{
     this(new Usuario(nome, sobrenome, matricula, senha));
   }
   Vector<Materia> getMaterias(){
-    return Chefe.getMaterias();
+    return null;
   }
 }
