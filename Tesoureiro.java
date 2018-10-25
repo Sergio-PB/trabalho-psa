@@ -5,7 +5,7 @@ public class Tesoureiro extends Administrador{
   Tesoureiro(String nome, String sobrenome, int matricula, String senha){
     this(new Usuario(nome, sobrenome, matricula, senha));
   }
-  void definirSalario(Professor professor){
-    professor.salario = salario;
+  void definirSalario(Professor professor, int salario){
+    professor.setSalario(salario);
   }
 }

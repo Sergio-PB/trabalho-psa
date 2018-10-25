@@ -1,8 +1,8 @@
 import java.util.Vector;
 
 public class Chefe extends Administrador{
-  private static Vector<Materia> listaDeMaterias = new Vector();
-  private static Vector<Pedido> pedidos = new Vector();
+  private Vector<Materia> listaDeMaterias = new Vector<Materia>();
+  private static Vector<Pedido> pedidos = new Vector<Pedido>();
 
   Chefe(Usuario u){
     super(u);
@@ -13,12 +13,12 @@ public class Chefe extends Administrador{
   }
 
   Vector<Materia> getMaterias(){
-    return Chefe.listaDeMaterias;
+    return this.listaDeMaterias;
   }
 
   void cadastrarMateria(String nome, String codigo, Professor professor){
     Materia materia = new Materia(nome, codigo, professor);
-    Chefe.listaDeMaterias.add(materia);
+    this.listaDeMaterias.add(materia);
   }
 
   static void novoPedido(Pedido pedido){
