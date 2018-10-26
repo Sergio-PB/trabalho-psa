@@ -1,10 +1,12 @@
+chefe Eduardo Camponogara 1234569 1234
 estudante Sergio Bernardes 17100673 1234
 estudante Pedro Xavier 17100674 1234
 estudante Andrea Melgar 17100675 1234
 estudante Davede Sande 17100676 1234
-estudante Sergio Bernardes 17100677 1234
-estudante Sergio Bernardes 17100678 1234
+estudante Maria Marionete 17100677 1234
+estudante Paula Dentro 17100678 1234
 professor Romulo Oliveira 1234567 1234
 professor Jomi Hubner 1234568 1234
-administrador Rodrigo Pereira 1234570
-chefe Eduardo Camponogara 1234569 1234
+tesoureiro Rodrigo Pereira 1234570 1234
+materia Programacao DAS5308 Romulo
+materia Introducao DAS5334 Jomi

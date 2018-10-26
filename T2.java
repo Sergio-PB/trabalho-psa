@@ -6,33 +6,39 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class T2{
-	BufferedReader input;
-	HashMap<String, Usuario> usuarios;
+	//BufferedReader input;
+	HashMap<Integer, Usuario> usuarios;
 
-	public void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException{
+		static usuarios = new HashMap<Integer, Usuario>(); // matricula, obj
+
 		File file = new File("./cadastros.txt");
 		BufferedReader fr = new BufferedReader(new FileReader(file));
-		String line;
+		String line = "ok";
 		while(line != null){
 			line = fr.readLine();
-			if(line == "estudante"){
-				//Usuario user = new Usuario();
+			String[] prop = line.split(" ");
+			if(prop[0] == "estudante"){
+				usuarios.put(Integer.parseInt(prop[3]), new Estudante(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]));
+			}else if(prop[0] == "professor"){
+				usuarios.put(Integer.parseInt(prop[3]), new Professor(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]));
+			}else if(prop[0] == "chefe"){
+				usuarios.put(Integer.parseInt(prop[3]), new Chefe(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]));
+			}else if(prop[0] == "administrador"){
+				usuarios.put(Integer.parseInt(prop[3]), new Administrador(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]));
 			}
-
 		}
 
-		input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println(usuarios);
 
-		usuarios = new HashMap<String, Usuario>(); // matricula, obj
-		// map.put("0", "admin");
-
+		//input = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Bem-vindo ao Magister");
-
+		/*
 		Usuario usuario = null;
 		while(usuario == null){usuario = login();}
-		area(usuario);
+		area(usuario);*/
 	}
-
+/*
 	Usuario login() throws IOException{
 		Usuario user = null;
 		System.out.println("Por favor insira sua matrícula: ");
@@ -92,5 +98,5 @@ public class T2{
 		break;
 		}
 	}
-
+*/
 }
