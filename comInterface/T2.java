@@ -34,7 +34,9 @@ public class T2{
 				usuarios.putIfAbsent(Integer.parseInt(prop[3]), new Estudante(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]));
 				System.out.println(usuarios.get(Integer.parseInt(prop[3]))+" cadastrado.");
 			}else if(prop[0].equals("professor")){
-				usuarios.putIfAbsent(Integer.parseInt(prop[3]), new Professor(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]));
+				Professor professor = new Professor(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]);
+				Tesoureiro.addProfessor(professor);
+				usuarios.putIfAbsent(Integer.parseInt(prop[3]), professor);
 				System.out.println(usuarios.get(Integer.parseInt(prop[3]))+" cadastrado.");
 			}else if(prop[0].equals("chefe")){
 				chefe = new Chefe(prop[1], prop[2], Integer.parseInt(prop[3]), prop[4]);

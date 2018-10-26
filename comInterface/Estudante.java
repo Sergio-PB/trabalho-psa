@@ -57,7 +57,13 @@ public class Estudante extends Usuario{
       System.out.println("3. Sair da plataforma");
   		switch(input.readLine()){
   		case "1": System.out.println("Aqui estão suas matérias cadastradas e respectivas notas:");
-        notas.forEach((m,n) -> System.out.println(m + "-" + n));
+        System.out.println("--------------------");
+        if(!notas.isEmpty()){
+          notas.forEach((m,n) -> System.out.println(m + "-" + n));
+        }else{
+          System.out.println("Você não está matriculado em nenhuma matéria ainda.");
+        }
+        System.out.println("--------------------");
   		break;
   		case "2":
         System.out.println("Selecione uma matéria para matrícula:");
@@ -73,10 +79,10 @@ public class Estudante extends Usuario{
           System.out.println(matEscolhida);
           System.out.println(matEscolhida.getAlunos());
           if(matEscolhida.getAlunos().contains(this)){
-            System.out.println("Você já estava cadastrado nessa matéria.");
+            System.out.println("Você já está cadastrado nessa matéria.");
           }else{
             fazPedido(matEscolhida);
-            System.out.println("Você agora está cadastrado em "+matEscolhida);
+            System.out.println("Pedido de matrícula para "+matEscolhida.getNome() + " feito.");
           }
         }catch (java.lang.ArrayIndexOutOfBoundsException e) {
           System.out.println(e);
