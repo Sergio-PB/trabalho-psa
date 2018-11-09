@@ -44,20 +44,6 @@ public class Professor extends Usuario{
     return "Professor "+this.getNomeCompleto()+" de matrícula "+this.getMatricula();
   }
 
-  void configuraJanela(JanelaPrincipal janela){
-    GridLayout mainLayout = new GridLayout(2, 1);
-    janela.setLayout(mainLayout);
-
-    janela.listaMaterias = new Panel();
-    janela.infoUsuario = new Label(this.toString());
-    janela.listaMaterias.add(janela.infoUsuario);
-    for(Materia m: this.materias){
-      janela.listaMaterias.add(new Button(m.getNome()));
-    }
-
-    janela.textAlunosNotas = new Panel(new GridLayout(1, 2));
-  }
-
   void area() throws IOException{
     boolean logado = true;
     while(logado){

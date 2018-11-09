@@ -9,4 +9,4 @@ professor Romulo Oliveira 1234567 1234
 professor Jomi Hubner 1234568 1234
 tesoureiro Rodrigo Pereira 1234570 1234
 materia Programacao DAS5308 Romulo
-materia Introducao DAS5334 Jomi
+materia Introducao DAS5334 Romulo
