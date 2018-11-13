@@ -23,12 +23,14 @@ public class JanelaPrincipal extends Frame{
   // Tesoureiro
 
   public JanelaPrincipal(Usuario user){
-    this.setTitle("Area de " + user.getNomeCompleto());
-    infoUsuario = new Label(user.toString());
-    this.add(infoUsuario);
+    // this.setTitle("Area de " + user.getNomeCompleto());
+    // infoUsuario = new Label(user.toString());
+    // this.add(infoUsuario);
 
     // user.configuraJanela(this);
-    if(user instanceof Estudante){
+    if(user == null){
+      throw new NullPointerException();
+    } else if(user instanceof Estudante){
       configEstudante((Estudante) user);
     } else if(user instanceof Professor){
       configProfessor((Professor) user);
@@ -38,8 +40,9 @@ public class JanelaPrincipal extends Frame{
       configTesoureiro((Tesoureiro) user);
     }
 
-    botaoSair = new Button("SAIR");
-    this.add(botaoSair);
+    // botaoSair = new Button("SAIR");
+    // this.add(botaoSair);
+
     this.pack();
     this.setVisible(true);
   }
@@ -56,17 +59,29 @@ public class JanelaPrincipal extends Frame{
     // this.gl = new GridLayout(1, 1);
     GridBagConstraints c = new GridBagConstraints();
     c.fill = GridBagConstraints.VERTICAL;
+    c.anchor = GridBagConstraints.PAGE_START;
+
     this.setLayout(new GridBagLayout());
+
+    this.setTitle("Area de " + u.getNomeCompleto());
+    infoUsuario = new Label(u.toString());
+    this.add(infoUsuario);
+    c.anchor = GridBagConstraints.CENTER;
+
     listaMaterias = new Panel(new GridBagLayout());
-    int py = 0;
+    c.gridwidth = GridBagConstraints.REMAINDER;
     for(Materia m: u.getMaterias()){
+      c.gridy += 1;
       System.out.println("add button");
       listaMaterias.add(new Button(m.getNome() + " - " + m.getCodigo()), c);
-      py += 1;
-      c.gridy = py;
     }
-    c.gridy = 1;
+    c.gridheight = 10;
     this.add(listaMaterias, c);
+
+    botaoSair = new Button("SAIR");
+    c.gridy += 2;
+    c.anchor = GridBagConstraints.PAGE_END;
+    this.add(botaoSair, c);
   }
 
   public void configChefe(Chefe u){

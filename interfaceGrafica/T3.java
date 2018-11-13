@@ -14,8 +14,8 @@ public class T3{
 		System.out.println("\nBem-vindo ao Magister");
 		while(true){
 			try{
-				Usuario u = login();
-				new JanelaPrincipal(u);
+				// Usuario u = login();
+				new JanelaPrincipal(usuarios.get(1234567));
 				// setar janela de Login como invisible
 			}catch (Exception e) {
 				System.out.println(e);
