@@ -1,10 +1,11 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Vector;
+import javax.swing.*;
 
 public class JanelaPrincipal extends Frame{
   private Label infoUsuario;
   private Button botaoSair;
-  private GridLayout gl;
 
   // Aluno
   private Button acessarMateriasNotas;
@@ -15,12 +16,25 @@ public class JanelaPrincipal extends Frame{
 
   // Professor
   private Panel listaMaterias;
-    //Vector<Button, Materia> botoesMaterias;
+  //Vector<Button, Materia> botoesMaterias;
   private Panel textAlunosNotas;
+  class BtnListenerProf implements ActionListener{
+		public void actionPerformed( ActionEvent e) {
+      System.out.println(e.getSource());
+		}
+	}
 
   // Chefe
 
   // Tesoureiro
+
+  // Listeners
+  class ExitListener implements ActionListener{
+		public void actionPerformed( ActionEvent e) {
+      dispose();
+		  // System.exit(0);
+		}
+	}
 
   public JanelaPrincipal(Usuario user){
     // this.setTitle("Area de " + user.getNomeCompleto());
@@ -40,11 +54,6 @@ public class JanelaPrincipal extends Frame{
       configTesoureiro((Tesoureiro) user);
     }
 
-    // botaoSair = new Button("SAIR");
-    // this.add(botaoSair);
-
-    this.pack();
-    this.setVisible(true);
   }
 
   public Dimension getPreferredSize(){
@@ -56,32 +65,74 @@ public class JanelaPrincipal extends Frame{
   }
 
   public void configProfessor(Professor u){
-    // this.gl = new GridLayout(1, 1);
-    GridBagConstraints c = new GridBagConstraints();
-    c.fill = GridBagConstraints.VERTICAL;
-    c.anchor = GridBagConstraints.PAGE_START;
+    GridBagLayout layout = new GridBagLayout();
+    this.setLayout(layout);
 
-    this.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(10, 10, 10, 10);
 
-    this.setTitle("Area de " + u.getNomeCompleto());
-    infoUsuario = new Label(u.toString());
-    this.add(infoUsuario);
-    c.anchor = GridBagConstraints.CENTER;
+    infoUsuario = new Label("Area de "+u);
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(infoUsuario, cons);
 
-    listaMaterias = new Panel(new GridBagLayout());
-    c.gridwidth = GridBagConstraints.REMAINDER;
+    // PAINEL DE SELEÇÃO DE MATERIAS //
+    GridBagLayout playout = new GridBagLayout();
+    listaMaterias = new Panel();
+    listaMaterias.setLayout(playout);
+    cons.fill = GridBagConstraints.BOTH;
+    cons.anchor = GridBagConstraints.LINE_START;
+    cons.insets = new Insets(5, 2, 0, 2); // top left bot right
+    int panelY = 1;
+    Button btnMateria;
+    BtnListenerProf btnList;
     for(Materia m: u.getMaterias()){
-      c.gridy += 1;
-      System.out.println("add button");
-      listaMaterias.add(new Button(m.getNome() + " - " + m.getCodigo()), c);
+      panelY += 1;
+      cons.gridy = panelY;
+      btnMateria = new Button(m.getNome());
+      listaMaterias.add(btnMateria, cons);
+      btnList = new BtnListenerProf();
+      btnMateria.addActionListener(btnList);
     }
-    c.gridheight = 10;
-    this.add(listaMaterias, c);
+    cons.anchor = GridBagConstraints.CENTER;
+    cons.gridy = 1;
+    cons.weightx = 2;
+    cons.weighty = 2;
+    cons.gridheight = 2;
+    this.add(listaMaterias, cons);
 
+    // PAINEL DE MOSTRAR MATERIAS //
+    playout = new GridBagLayout();
+    Panel listaMostraMaterias = new Panel();
+    listaMostraMaterias.setLayout(playout);
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(5, 2, 5, 2); // top left bot right
+
+    cons.anchor = GridBagConstraints.CENTER;
+    cons.gridy = 1;
+    cons.gridx = 0;
+    cons.weightx = 2;
+    cons.weighty = 2;
+    cons.gridheight = 2;
+    this.add(listaMostraMaterias, cons);
+
+    // PAINEL DE MOSTRAR MATERIAS //
     botaoSair = new Button("SAIR");
-    c.gridy += 2;
-    c.anchor = GridBagConstraints.PAGE_END;
-    this.add(botaoSair, c);
+    cons.gridy = 3;
+    cons.weightx = 0.5;
+    cons.gridheight = 1;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LAST_LINE_END;
+    this.add(botaoSair, cons);
+    ExitListener el = new ExitListener();
+		botaoSair.addActionListener(el);
+
+
+    this.pack();
+    this.setVisible(true);
   }
 
   public void configChefe(Chefe u){

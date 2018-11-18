@@ -15,7 +15,9 @@ public class T3{
 		while(true){
 			try{
 				// Usuario u = login();
+				// new JanelaPrincipal(u);
 				new JanelaPrincipal(usuarios.get(1234567));
+				break;
 				// setar janela de Login como invisible
 			}catch (Exception e) {
 				System.out.println(e);
