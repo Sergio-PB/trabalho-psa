@@ -14,10 +14,10 @@ public class T3{
 		System.out.println("\nBem-vindo ao Magister");
 		while(true){
 			try{
-				// Usuario u = login();
-				// new JanelaPrincipal(u);
-				new JanelaPrincipal(usuarios.get(1234567));
-				break;
+				Usuario u = login();
+				new JanelaPrincipal(u);
+				// new JanelaPrincipal(usuarios.get(1234567));
+				// break;
 				// setar janela de Login como invisible
 			}catch (Exception e) {
 				System.out.println(e);

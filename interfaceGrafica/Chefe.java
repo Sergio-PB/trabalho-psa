@@ -24,11 +24,16 @@ public class Chefe extends Administrador{
     m.setProfessor(p);
   }
 
+  static Vector<Pedido> getPedidos(){
+    return Chefe.pedidos;
+  }
+
   static void novoPedido(Pedido pedido){
     Chefe.pedidos.add(pedido);
   }
 
-  void aprovarPedido(Pedido pedido){
+  public void aprovarPedido(Pedido pedido){
+    System.out.println("Aprovando");
     Estudante estudante = pedido.getEstudante();
     Materia materia = pedido.getMateria();
     estudante.addMateria(materia);
@@ -39,10 +44,6 @@ public class Chefe extends Administrador{
 
   public String toString(){
     return "Chefe de Dept. "+this.getNomeCompleto() + " de matricula "+this.getMatricula();
-  }
-
-  void configuraJanela(JanelaPrincipal janela){
-
   }
 
   void area() throws IOException{

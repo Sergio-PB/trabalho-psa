@@ -11,20 +11,89 @@ public class JanelaPrincipal extends Frame{
   private Button acessarMateriasNotas;
   private TextArea materiasNotas;
   private Button fazerPedido;
-  private Button confirmarPedido;
+  private Materia materiaEscolhida;
   private List listaPedidos;
-
-  // Professor
-  private Panel listaMaterias;
-  //Vector<Button, Materia> botoesMaterias;
-  private Panel textAlunosNotas;
-  class BtnListenerProf implements ActionListener{
+  class BtnListenerEst implements ActionListener{
+    private Estudante aluno;
+    public BtnListenerEst(Estudante u){
+      aluno = u;
+    }
 		public void actionPerformed( ActionEvent e) {
-      System.out.println(e.getSource());
+      aluno.fazPedido(materiaEscolhida);
+    }
+	}
+  class ListListenerEst implements ItemListener {
+		public void itemStateChanged( ItemEvent e) {
+      String selecionado = listaPedidos.getSelectedItem();
+      for(Materia m: Administrador.listMaterias()){
+        if(m.toString() == selecionado){
+          materiaEscolhida = m;
+        }
+      }
 		}
 	}
 
+  // Professor
+  private Panel listaMaterias;
+  private Panel listaMostraMaterias;
+  //Vector<Button, Materia> botoesMaterias;
+  private Panel textAlunosNotas;
+  class BtnListenerProf implements ActionListener{
+    private Vector<Materia> materias;
+    public BtnListenerProf(Professor p){
+      materias = p.getMaterias();
+    }
+    public void actionPerformed( ActionEvent e) {
+
+
+    }
+  }
+
   // Chefe
+  private Button btnCadastrarMateria;
+  private Button confirmarPedido;
+  private List listaPedidosPendentes;
+  private Pedido pedidoSelecionado;
+  class BtnListenerChefe implements ActionListener{
+    private Chefe c;
+    public BtnListenerChefe(Chefe c){
+      c = c;
+      System.out.println(c);
+    }
+    public void actionPerformed( ActionEvent e) {
+      System.out.println("Btn" + c);
+      if(((Button)e.getSource()).getLabel().equals("Confirmar pedido")){
+        // try{
+          for(Pedido p: Chefe.getPedidos()){
+            if(p.toString().equals(pedidoSelecionado.toString())){
+              System.out.println("Aprovou");
+              System.out.println(c);
+              c.aprovarPedido(p);
+            }else{
+
+              System.out.println("N Aprovou: \n"+pedidoSelecionado+"\n"+p.toString());
+              System.out.println(pedidoSelecionado.equals(p.toString()));
+            }
+          }
+        // }catch (Exception ex){
+        //   System.out.println(ex);
+        //   System.out.println("Erro"+pedidoSelecionado);
+        // }
+      }else{
+        System.out.println(((Button)e.getSource()).getLabel());
+      }
+    }
+  }
+  class ListListenerChefe implements ItemListener {
+		public void itemStateChanged( ItemEvent e) {
+      String selecionado = listaPedidosPendentes.getSelectedItem();
+      for(Pedido p: Chefe.getPedidos()){
+        if(p.toString().equals(selecionado)){
+          pedidoSelecionado = p;
+        }
+      }
+		}
+	}
 
   // Tesoureiro
 
@@ -61,7 +130,85 @@ public class JanelaPrincipal extends Frame{
   }
 
   public void configEstudante(Estudante u){
+    GridBagLayout layout = new GridBagLayout();
+    this.setLayout(layout);
 
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(10, 10, 10, 10);
+
+    infoUsuario = new Label("Area de "+u);
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(infoUsuario, cons);
+
+    // PAINEL DE MATERIAS E NOTAS//
+    cons.gridy = 1;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.CENTER;
+    this.add(new Label("MATERIA - NOTAS"), cons);
+    materiasNotas = new TextArea();
+    materiasNotas.setEditable(false);
+    cons.gridy = 2;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.PAGE_START;
+    for(Materia m: u.getMaterias()){
+      materiasNotas.append("Nota de "+m.getCodigo()+" - "+m.getNome()+": "+u.getNotas().get(m)+"\n");
+    }
+    this.add(materiasNotas, cons);
+
+    // SELECIONAR MATERIA  PARA PEDIDO//
+    cons.gridy = 3;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.CENTER;
+    this.add(new Label("SELECIONE UMA MATÉRIA PARA FAZER O PEDIDO DE MATRÍCULA"), cons);
+    // PAINEL DE MATERIAS //
+    listaPedidos = new List();
+    for(Materia m: Administrador.listMaterias()){
+      if(!u.getMaterias().contains(m)){
+        listaPedidos.add(m.toString());
+      }
+    }
+    cons.gridy = 4;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(listaPedidos, cons);
+    ListListenerEst pl = new ListListenerEst();
+    listaPedidos.addItemListener(pl);
+    // BOTAO FAZER PEDIDO//
+    fazerPedido = new Button("Confirmar pedido");
+    cons.gridy = 5;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.CENTER;
+    this.add(fazerPedido, cons);
+    BtnListenerEst fp = new BtnListenerEst(u);
+		fazerPedido.addActionListener(fp);
+
+    // BOTAO DE SAIR //
+    botaoSair = new Button("SAIR");
+    cons.gridy = 7;
+    cons.weightx = 0.5;
+    cons.gridheight = 1;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LAST_LINE_END;
+    this.add(botaoSair, cons);
+    ExitListener el = new ExitListener();
+		botaoSair.addActionListener(el);
+
+
+    this.pack();
+    this.setVisible(true);
   }
 
   public void configProfessor(Professor u){
@@ -94,7 +241,7 @@ public class JanelaPrincipal extends Frame{
       cons.gridy = panelY;
       btnMateria = new Button(m.getNome());
       listaMaterias.add(btnMateria, cons);
-      btnList = new BtnListenerProf();
+      btnList = new BtnListenerProf(u);
       btnMateria.addActionListener(btnList);
     }
     cons.anchor = GridBagConstraints.CENTER;
@@ -106,7 +253,7 @@ public class JanelaPrincipal extends Frame{
 
     // PAINEL DE MOSTRAR MATERIAS //
     playout = new GridBagLayout();
-    Panel listaMostraMaterias = new Panel();
+    listaMostraMaterias = new Panel();
     listaMostraMaterias.setLayout(playout);
     cons.fill = GridBagConstraints.BOTH;
     cons.insets = new Insets(5, 2, 5, 2); // top left bot right
@@ -119,7 +266,7 @@ public class JanelaPrincipal extends Frame{
     cons.gridheight = 2;
     this.add(listaMostraMaterias, cons);
 
-    // PAINEL DE MOSTRAR MATERIAS //
+    // BOTAO DE SAIR //
     botaoSair = new Button("SAIR");
     cons.gridy = 3;
     cons.weightx = 0.5;
@@ -130,13 +277,81 @@ public class JanelaPrincipal extends Frame{
     ExitListener el = new ExitListener();
 		botaoSair.addActionListener(el);
 
-
     this.pack();
     this.setVisible(true);
   }
 
   public void configChefe(Chefe u){
+    GridBagLayout layout = new GridBagLayout();
+    this.setLayout(layout);
 
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(10, 10, 10, 10);
+
+    infoUsuario = new Label("Area de "+u);
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(infoUsuario, cons);
+
+    // BOTAO CADASTRAR MATERIA //
+    btnCadastrarMateria = new Button("Cadastrar nova matéria");
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 1;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(btnCadastrarMateria, cons);
+    System.out.println("Criando btn");
+    BtnListenerChefe nm = new BtnListenerChefe(u);
+    btnCadastrarMateria.addActionListener(nm);
+
+    // SELECIONAR PEDIDO//
+    cons.gridy = 2;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.CENTER;
+    this.add(new Label("SELECIONE UM PEDIDO PARA APROVAR"), cons);
+    // PAINEL DE PEDIDOS //
+    listaPedidosPendentes = new List();
+    for(Pedido p: Chefe.getPedidos()){
+      listaPedidosPendentes.add(p.toString());
+    }
+    cons.gridy = 3;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(listaPedidosPendentes, cons);
+    ListListenerChefe pl = new ListListenerChefe();
+    listaPedidosPendentes.addItemListener(pl);
+    // BOTAO FAZER PEDIDO//
+    confirmarPedido = new Button("Confirmar pedido");
+    cons.gridy = 4;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.CENTER;
+    this.add(confirmarPedido, cons);
+    System.out.println("Criando btn");
+    BtnListenerChefe fp = new BtnListenerChefe(u);
+		confirmarPedido.addActionListener(fp);
+
+    // BOTAO DE SAIR //
+    botaoSair = new Button("SAIR");
+    cons.gridy = 8;
+    cons.weightx = 0.5;
+    cons.gridheight = 1;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LAST_LINE_END;
+    this.add(botaoSair, cons);
+    ExitListener el = new ExitListener();
+		botaoSair.addActionListener(el);
+
+    this.pack();
+    this.setVisible(true);
   }
 
   public void configTesoureiro(Tesoureiro u){
