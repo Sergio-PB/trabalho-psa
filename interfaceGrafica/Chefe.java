@@ -33,7 +33,6 @@ public class Chefe extends Administrador{
   }
 
   public void aprovarPedido(Pedido pedido){
-    System.out.println("Aprovando");
     Estudante estudante = pedido.getEstudante();
     Materia materia = pedido.getMateria();
     estudante.addMateria(materia);

@@ -26,7 +26,7 @@ public class JanelaPrincipal extends Frame{
 		public void itemStateChanged( ItemEvent e) {
       String selecionado = listaPedidos.getSelectedItem();
       for(Materia m: Administrador.listMaterias()){
-        if(m.toString() == selecionado){
+        if(m.toString().equals(selecionado)){
           materiaEscolhida = m;
         }
       }
@@ -34,17 +34,12 @@ public class JanelaPrincipal extends Frame{
 	}
 
   // Professor
-  private Panel listaMaterias;
-  private Panel listaMostraMaterias;
-  //Vector<Button, Materia> botoesMaterias;
-  private Panel textAlunosNotas;
-  class BtnListenerProf implements ActionListener{
-    private Vector<Materia> materias;
-    public BtnListenerProf(Professor p){
-      materias = p.getMaterias();
+  class BtnMateriaListener implements ActionListener {
+    private Materia m;
+    public BtnMateriaListener(Materia materia){
+      this.m = materia;
     }
-    public void actionPerformed( ActionEvent e) {
-
+    public void actionPerformed(ActionEvent evento) {
 
     }
   }
@@ -56,29 +51,13 @@ public class JanelaPrincipal extends Frame{
   private Pedido pedidoSelecionado;
   class BtnListenerChefe implements ActionListener{
     private Chefe c;
-    public BtnListenerChefe(Chefe c){
-      c = c;
-      System.out.println(c);
+    public BtnListenerChefe(Chefe chefe){
+      this.c = chefe;
     }
-    public void actionPerformed( ActionEvent e) {
-      System.out.println("Btn" + c);
-      if(((Button)e.getSource()).getLabel().equals("Confirmar pedido")){
-        // try{
-          for(Pedido p: Chefe.getPedidos()){
-            if(p.toString().equals(pedidoSelecionado.toString())){
-              System.out.println("Aprovou");
-              System.out.println(c);
-              c.aprovarPedido(p);
-            }else{
 
-              System.out.println("N Aprovou: \n"+pedidoSelecionado+"\n"+p.toString());
-              System.out.println(pedidoSelecionado.equals(p.toString()));
-            }
-          }
-        // }catch (Exception ex){
-        //   System.out.println(ex);
-        //   System.out.println("Erro"+pedidoSelecionado);
-        // }
+    public void actionPerformed( ActionEvent e) {
+      if(((Button)e.getSource()).getLabel().equals("Confirmar pedido")){
+        c.aprovarPedido(pedidoSelecionado);
       }else{
         System.out.println(((Button)e.getSource()).getLabel());
       }
@@ -169,7 +148,7 @@ public class JanelaPrincipal extends Frame{
     cons.weightx = 1;
     cons.gridheight = 1;
     cons.anchor = GridBagConstraints.CENTER;
-    this.add(new Label("SELECIONE UMA MATÉRIA PARA FAZER O PEDIDO DE MATRÍCULA"), cons);
+    this.add(new Label("SELECIONE UMA MATÉRIA PARA FAZER O PEDIDO DE MATRICULA"), cons);
     // PAINEL DE MATERIAS //
     listaPedidos = new List();
     for(Materia m: Administrador.listMaterias()){
@@ -226,45 +205,27 @@ public class JanelaPrincipal extends Frame{
     cons.gridheight = 1;
     this.add(infoUsuario, cons);
 
-    // PAINEL DE SELEÇÃO DE MATERIAS //
-    GridBagLayout playout = new GridBagLayout();
-    listaMaterias = new Panel();
-    listaMaterias.setLayout(playout);
-    cons.fill = GridBagConstraints.BOTH;
-    cons.anchor = GridBagConstraints.LINE_START;
-    cons.insets = new Insets(5, 2, 0, 2); // top left bot right
-    int panelY = 1;
-    Button btnMateria;
-    BtnListenerProf btnList;
-    for(Materia m: u.getMaterias()){
-      panelY += 1;
-      cons.gridy = panelY;
-      btnMateria = new Button(m.getNome());
-      listaMaterias.add(btnMateria, cons);
-      btnList = new BtnListenerProf(u);
-      btnMateria.addActionListener(btnList);
+    for (Materia m : u.getMaterias()) {
+      Button botaoMateria = new Button (m.getNome());
+      cons.gridy += 1;
+      cons.weightx = 1;
+      cons.gridheight = 1;
+      this.add(botaoMateria, cons);
+
     }
-    cons.anchor = GridBagConstraints.CENTER;
-    cons.gridy = 1;
-    cons.weightx = 2;
-    cons.weighty = 2;
-    cons.gridheight = 2;
-    this.add(listaMaterias, cons);
 
-    // PAINEL DE MOSTRAR MATERIAS //
-    playout = new GridBagLayout();
-    listaMostraMaterias = new Panel();
-    listaMostraMaterias.setLayout(playout);
-    cons.fill = GridBagConstraints.BOTH;
-    cons.insets = new Insets(5, 2, 5, 2); // top left bot right
+    Label tituloMateria = new Label("ALUNOS - NOTAS: ");
+    cons.gridy += 1;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(tituloMateria, cons);
 
-    cons.anchor = GridBagConstraints.CENTER;
-    cons.gridy = 1;
-    cons.gridx = 0;
-    cons.weightx = 2;
-    cons.weighty = 2;
-    cons.gridheight = 2;
-    this.add(listaMostraMaterias, cons);
+    TextArea infoMateria = new TextArea();
+    cons.gridy += 1;
+    cons.weightx = 1;
+    cons.gridheight = 3;
+    this.add(infoMateria, cons);
+
 
     // BOTAO DE SAIR //
     botaoSair = new Button("SAIR");
@@ -282,6 +243,7 @@ public class JanelaPrincipal extends Frame{
   }
 
   public void configChefe(Chefe u){
+    System.out.println("Area do chefe: "+u);
     GridBagLayout layout = new GridBagLayout();
     this.setLayout(layout);
 
@@ -304,7 +266,6 @@ public class JanelaPrincipal extends Frame{
     cons.weightx = 1;
     cons.gridheight = 1;
     this.add(btnCadastrarMateria, cons);
-    System.out.println("Criando btn");
     BtnListenerChefe nm = new BtnListenerChefe(u);
     btnCadastrarMateria.addActionListener(nm);
 
