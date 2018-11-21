@@ -126,7 +126,6 @@ public class JanelaPrincipal extends Frame{
       for(Usuario u : T3.usuarios.values()){
         if(u instanceof Professor && u.getNome().equals(novaMateriaProfessor.getText())){
           p = (Professor) u;
-          // System.out.println("Achou "+p.getNome());
           break;
         }
       }
@@ -179,6 +178,13 @@ public class JanelaPrincipal extends Frame{
 	}
 
   public JanelaPrincipal(Usuario user){
+    //Logo
+		ImageIcon logo = new ImageIcon("Logo.jpg"); //Por local da imagem (Enderecos com acentuacao pode dar ruim)
+		this.setIconImage(logo.getImage());
+		this.setTitle("MAGISTER");
+
+		this.setFont( new Font("TimesRoman", Font.PLAIN, 14) );
+
     if(user == null){
       configLogin();
     } else if(user instanceof Estudante){
@@ -191,10 +197,12 @@ public class JanelaPrincipal extends Frame{
       configTesoureiro((Tesoureiro) user);
     }
 
+    this.pack();
+    this.setVisible(true);
   }
 
   public Dimension getPreferredSize(){
-    return new Dimension(600, 800);
+    return new Dimension(600, 400);
   }
 
   public void configLogin(){
@@ -249,9 +257,6 @@ public class JanelaPrincipal extends Frame{
     this.add(botaoSair, cons);
     ExitListener el = new ExitListener();
 		botaoSair.addActionListener(el);
-
-    this.pack();
-    this.setVisible(true);
   }
 
   public void configEstudante(Estudante u){
@@ -330,10 +335,6 @@ public class JanelaPrincipal extends Frame{
     this.add(botaoSair, cons);
     ExitListener el = new ExitListener();
 		botaoSair.addActionListener(el);
-
-
-    this.pack();
-    this.setVisible(true);
   }
 
   public void configProfessor(Professor u){
@@ -396,9 +397,6 @@ public class JanelaPrincipal extends Frame{
     this.add(botaoSair, cons);
     ExitListener el = new ExitListener();
 		botaoSair.addActionListener(el);
-
-    this.pack();
-    this.setVisible(true);
   }
 
   public void configChefe(Chefe u){
@@ -430,9 +428,9 @@ public class JanelaPrincipal extends Frame{
     // PAINEL CRIAR MATERIA //
     novaMateria = new Panel();
     novaMateria.setLayout(new GridBagLayout());
-    novaMateriaNome = new TextArea(1, 10);
-    novaMateriaCodigo = new TextArea(1, 10);
-    novaMateriaProfessor = new TextArea(1, 10);
+    novaMateriaNome = new TextArea(1, 20);
+    novaMateriaCodigo = new TextArea(1, 8);
+    novaMateriaProfessor = new TextArea(1, 16);
     novaMateriaConfirmar = new Button("Confirmar nova materia");
     novaMateria.add(novaMateriaNome);
     novaMateria.add(novaMateriaCodigo);
@@ -488,9 +486,6 @@ public class JanelaPrincipal extends Frame{
     this.add(botaoSair, cons);
     ExitListener el = new ExitListener();
 		botaoSair.addActionListener(el);
-
-    this.pack();
-    this.setVisible(true);
   }
 
   public void configTesoureiro(Tesoureiro u){

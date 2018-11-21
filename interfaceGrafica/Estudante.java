@@ -47,10 +47,6 @@ public class Estudante extends Usuario{
     return "Estudante "+this.getNomeCompleto()+" de matrícula "+this.getMatricula();
   }
 
-  void configuraJanela(JanelaPrincipal janela){
-
-  }
-
   void area() throws IOException{
     boolean logado = true;
     while(logado){
