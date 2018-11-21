@@ -38,6 +38,6 @@ public class Materia{
   }
 
   public String toString(){
-    return "Materia "+this.nome+" de código "+this.codigo+", ministrada por "+this.professor;
+    return "Materia "+this.nome+" de código "+this.codigo+", ministrada por Professor "+this.professor.getNomeCompleto();
   }
 }
