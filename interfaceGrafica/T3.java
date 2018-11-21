@@ -12,18 +12,20 @@ public class T3{
 	public static void main(String[] args) throws IOException{
 		cadastra();
 		System.out.println("\nBem-vindo ao Magister");
-		while(true){
-			try{
-				Usuario u = login();
-				new JanelaPrincipal(u);
-				// new JanelaPrincipal(usuarios.get(1234567));
-				// break;
-				// setar janela de Login como invisible
-			}catch (Exception e) {
-				System.out.println(e);
-				System.out.println("Favor insira um usuário e senha válidos.");
-			}
-		}
+		new JanelaPrincipal(null);
+		// while(true){
+		// 	try{
+		// 		// login();
+		//
+		// 		// new JanelaPrincipal(u);
+		// 		// new JanelaPrincipal(usuarios.get(1234567));
+		// 		// break;
+		// 		// setar janela de Login como invisible
+		// 	}catch (Exception e) {
+		// 		System.out.println(e);
+		// 		System.out.println("Favor insira um usuário e senha válidos.");
+		// 	}
+		// }
 	}
 
 	static void cadastra() throws IOException{
@@ -72,23 +74,23 @@ public class T3{
 		}
 	}
 
-	static Usuario login() throws IOException{
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-		Usuario user = null;
-		System.out.println("Por favor insira sua matrícula: ");
-		int matr = Integer.parseInt(input.readLine());
-		if(usuarios.containsKey(matr)){
-			System.out.println("Por favor insira sua senha: ");
-			String senha = input.readLine();
-			if(usuarios.get(matr).getSenha().equals(senha)){
-				user =  usuarios.get(matr);
-			}else{
-				System.out.println("Essa senha está incorreta.");
-			}
-		}else{
-			System.out.println("Essa matrícula não está cadastrada.");
-		}
-		return user;
-
-	}
+	// static Usuario login() throws IOException{
+	// 	BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+	// 	Usuario user = null;
+	// 	System.out.println("Por favor insira sua matrícula: ");
+	// 	int matr = Integer.parseInt(input.readLine());
+	// 	if(usuarios.containsKey(matr)){
+	// 		System.out.println("Por favor insira sua senha: ");
+	// 		String senha = input.readLine();
+	// 		if(usuarios.get(matr).getSenha().equals(senha)){
+	// 			user =  usuarios.get(matr);
+	// 		}else{
+	// 			System.out.println("Essa senha está incorreta.");
+	// 		}
+	// 	}else{
+	// 		System.out.println("Essa matrícula não está cadastrada.");
+	// 	}
+	// 	return user;
+	//
+	// }
 }

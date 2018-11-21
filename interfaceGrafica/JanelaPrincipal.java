@@ -76,7 +76,27 @@ public class JanelaPrincipal extends Frame{
 
   // Tesoureiro
 
+  // Login
+  private TextArea campoSenha;
+  private TextArea campoUsuario;
+
   // Listeners
+  class LoginListener implements ActionListener{
+		public void actionPerformed( ActionEvent e) {
+      if(T3.usuarios.containsKey(Integer.parseInt(campoUsuario.getText()))){
+    			if(T3.usuarios.get(Integer.parseInt(campoUsuario.getText())).getSenha().equals(campoSenha.getText())){
+    				new JanelaPrincipal(T3.usuarios.get(Integer.parseInt(campoUsuario.getText())));
+            // this.setVisible(false);
+            dispose();
+    			}else{
+    				System.out.println("Essa senha está incorreta.");
+    			}
+  		}else{
+  			System.out.println("Essa matrícula não está cadastrada.");
+  		}
+		}
+	}
+
   class ExitListener implements ActionListener{
 		public void actionPerformed( ActionEvent e) {
       dispose();
@@ -91,7 +111,7 @@ public class JanelaPrincipal extends Frame{
 
     // user.configuraJanela(this);
     if(user == null){
-      throw new NullPointerException();
+      configLogin();
     } else if(user instanceof Estudante){
       configEstudante((Estudante) user);
     } else if(user instanceof Professor){
@@ -106,6 +126,69 @@ public class JanelaPrincipal extends Frame{
 
   public Dimension getPreferredSize(){
     return new Dimension(600, 800);
+  }
+
+  public void configLogin(){
+    GridBagLayout layout = new GridBagLayout();
+    this.setLayout(layout);
+
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(10, 10, 10, 10);
+
+    infoUsuario = new Label("Area de Login");
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 0;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(infoUsuario, cons);
+
+    Label labelUsuario = new Label("Usuario:");
+    cons.gridy += 1;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(labelUsuario, cons);
+
+    campoUsuario = new TextArea();
+    cons.gridy += 1;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(campoUsuario, cons);
+
+    Label labelSenha = new Label("Senha:");
+    cons.gridy += 1;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(labelUsuario, cons);
+
+    campoSenha = new TextArea();
+    cons.gridy += 1;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(campoSenha, cons);
+
+    // BOTAO DE SAIR //
+    Button botaoEntrar = new Button("ENTRAR");
+    cons.gridy += 1;
+    cons.weightx = 0.5;
+    cons.gridheight = 1;
+    this.add(botaoEntrar, cons);
+    LoginListener ll = new LoginListener();
+		botaoEntrar.addActionListener(ll);
+
+    // BOTAO DE SAIR //
+    botaoSair = new Button("SAIR");
+    cons.gridy = 3;
+    cons.weightx = 0.5;
+    cons.gridheight = 1;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LAST_LINE_END;
+    this.add(botaoSair, cons);
+    ExitListener el = new ExitListener();
+		botaoSair.addActionListener(el);
+
+    this.pack();
+    this.setVisible(true);
   }
 
   public void configEstudante(Estudante u){
