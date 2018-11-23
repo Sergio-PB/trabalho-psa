@@ -159,17 +159,17 @@ public class JanelaPrincipal extends Frame{
   private int valor;
   class BtnListenerTes implements ActionListener{
     public void actionPerformed( ActionEvent e) {
-      if(e.getSource().getLabel().equals("Calcular")){
+      if(((Button)e.getSource()).getLabel().equals("Calcular")){
         try{
-          valor = Integer.parseInt(novoSalario.getText());
-          valorNovoSalario.setText(valor*professorSelecionado.getMaterias().size());
+          valor = Integer.parseInt(novoSalario.getText())*professorSelecionado.getMaterias().size();
+          valorNovoSalario.setText("Novo salario total: R$"+Integer.toString(valor)+",00");
         }catch (Exception ex){
           valorNovoSalario.setText("entrada invalida");
         }
       }else{
         try{
-          valor = Integer.parseInt(novoSalario.getText());
-          valorNovoSalario.setText(valor*professorSelecionado.getMaterias().size());
+          valor = Integer.parseInt(novoSalario.getText())*professorSelecionado.getMaterias().size();
+          professorSelecionado.setSalario(valor);
         }catch (Exception ex){
           valorNovoSalario.setText("entrada invalida");
         }
@@ -214,6 +214,10 @@ public class JanelaPrincipal extends Frame{
 		}
 	}
 
+  // Layout
+  GridBagConstraints cons;
+
+
   class ExitListener implements ActionListener{
 		public void actionPerformed( ActionEvent e) {
       T3.janelaLogin.setVisible(true);
@@ -223,11 +227,31 @@ public class JanelaPrincipal extends Frame{
 
   public JanelaPrincipal(Usuario user){
     //Logo
-		ImageIcon logo = new ImageIcon("Logo.jpg"); //Por local da imagem (Enderecos com acentuacao pode dar ruim)
+		ImageIcon logo = new ImageIcon("Logo.png"); //Por local da imagem (Enderecos com acentuacao pode dar ruim)
 		this.setIconImage(logo.getImage());
 		this.setTitle("MAGISTER");
 
-		this.setFont( new Font("TimesRoman", Font.PLAIN, 14) );
+		this.setFont( new Font("SansSerif", Font.PLAIN, 14) );
+
+    GridBagLayout layout = new GridBagLayout();
+    this.setLayout(layout);
+    this.setBackground(new Color(170, 203, 255));
+
+    cons = new GridBagConstraints();
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(5, 10, 5, 10);
+    try{
+      infoUsuario = new Label("Area de "+user.getNomeCompleto(), Label.CENTER);
+    }catch(Exception exp){
+      infoUsuario = new Label("Area de Login", Label.CENTER);
+    }
+    infoUsuario.setFont( new Font("SansSerif", Font.PLAIN, 28) );
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 0;
+    cons.weightx = 1;
+    cons.gridwidth = 1;
+    cons.gridheight = 1;
+    this.add(infoUsuario, cons);
 
     if(user == null){
       configLogin();
@@ -241,6 +265,15 @@ public class JanelaPrincipal extends Frame{
       configTesoureiro((Tesoureiro) user);
     }
 
+    // BOTAO DE SAIR //
+    botaoSair = new Button("SAIR");
+    cons.gridy = 8;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LAST_LINE_END;
+    this.add(botaoSair, cons);
+    ExitListener el = new ExitListener();
+		botaoSair.addActionListener(el);
+
     this.pack();
     this.setVisible(true);
   }
@@ -250,20 +283,6 @@ public class JanelaPrincipal extends Frame{
   }
 
   public void configLogin(){
-    GridBagLayout layout = new GridBagLayout();
-    this.setLayout(layout);
-
-    GridBagConstraints cons = new GridBagConstraints();
-    cons.fill = GridBagConstraints.BOTH;
-    cons.insets = new Insets(10, 10, 10, 10);
-
-    infoUsuario = new Label("Area de Login");
-    cons.anchor = GridBagConstraints.PAGE_START;
-    cons.gridy = 0;
-    cons.weightx = 1;
-    cons.gridheight = 1;
-    this.add(infoUsuario, cons);
-
     Label labelUsuario = new Label("Usuario:");
     cons.gridy += 1;
     cons.weightx = 1;
@@ -291,16 +310,6 @@ public class JanelaPrincipal extends Frame{
     this.add(botaoEntrar, cons);
     LoginListener ll = new LoginListener();
 		botaoEntrar.addActionListener(ll);
-
-    // BOTAO DE SAIR //
-    botaoSair = new Button("SAIR");
-    cons.gridy += 1;
-    cons.weightx = 0.5;
-    cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LAST_LINE_END;
-    this.add(botaoSair, cons);
-    ExitListener el = new ExitListener();
-		botaoSair.addActionListener(el);
   }
 
   public void configEstudante(Estudante u){
@@ -309,14 +318,7 @@ public class JanelaPrincipal extends Frame{
 
     GridBagConstraints cons = new GridBagConstraints();
     cons.fill = GridBagConstraints.BOTH;
-    cons.insets = new Insets(10, 10, 10, 10);
-
-    infoUsuario = new Label("Area de "+u);
-    cons.anchor = GridBagConstraints.PAGE_START;
-    cons.gridy = 0;
-    cons.weightx = 1;
-    cons.gridheight = 1;
-    this.add(infoUsuario, cons);
+    cons.insets = new Insets(5, 10, 5, 10);
 
     // PAINEL DE MATERIAS E NOTAS//
     cons.gridy = 1;
@@ -368,17 +370,6 @@ public class JanelaPrincipal extends Frame{
     this.add(fazerPedido, cons);
     BtnListenerEst fp = new BtnListenerEst(u);
 		fazerPedido.addActionListener(fp);
-
-    // BOTAO DE SAIR //
-    botaoSair = new Button("SAIR");
-    cons.gridy = 7;
-    cons.weightx = 0.5;
-    cons.gridheight = 1;
-    cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LAST_LINE_END;
-    this.add(botaoSair, cons);
-    ExitListener el = new ExitListener();
-		botaoSair.addActionListener(el);
   }
 
   public void configProfessor(Professor u){
@@ -387,60 +378,45 @@ public class JanelaPrincipal extends Frame{
 
     GridBagConstraints cons = new GridBagConstraints();
     cons.fill = GridBagConstraints.BOTH;
-    cons.insets = new Insets(10, 10, 10, 10);
+    cons.insets = new Insets(5, 10, 5, 10);
 
-    infoUsuario = new Label("Area de "+u);
-    cons.anchor = GridBagConstraints.PAGE_START;
     cons.gridy = 0;
-    cons.weightx = 1;
-    cons.gridheight = 1;
-    this.add(infoUsuario, cons);
-
     for (Materia m : u.getMaterias()) {
       Button botaoMateria = new Button (m.getNome());
       cons.gridy += 1;
       cons.weightx = 1;
+      cons.gridwidth = 2;
       cons.gridheight = 1;
       this.add(botaoMateria, cons);
       botaoMateria.addActionListener(new BtnMateriaListener(m));
     }
-
+    Panel painelMudarNota = new Panel(new GridBagLayout());
     Label tituloMateria = new Label("ALUNOS - NOTAS: ");
     cons.gridy += 1;
-    cons.weightx = 1;
     cons.gridheight = 1;
-    this.add(tituloMateria, cons);
+    painelMudarNota.add(tituloMateria, cons);
 
     infoMateria = new List();
     cons.gridy += 1;
-    cons.weightx = 1;
+    cons.weightx = 3;
     cons.gridheight = 3;
-    this.add(infoMateria, cons);
+    painelMudarNota.add(infoMateria, cons);
     ListListenerProf im = new ListListenerProf();
 		infoMateria.addItemListener(im);
 
     Button botaoMudarNota = new Button("Mudar nota");
     cons.gridy += 1;
-    cons.weightx = 0.5;
+    cons.weightx = 1;
     cons.gridheight = 1;
     cons.fill = GridBagConstraints.NONE;
-    this.add(botaoMudarNota, cons);
+    painelMudarNota.add(botaoMudarNota, cons);
     BtnListenerProfNota ml = new BtnListenerProfNota();
 		botaoMudarNota.addActionListener(ml);
 
     novaNota = new TextArea(1, 10);
-    this.add(novaNota, cons);
-
-    // BOTAO DE SAIR //
-    botaoSair = new Button("SAIR");
-    cons.gridy += 2;
-    cons.weightx = 0.5;
-    cons.gridheight = 1;
-    cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LAST_LINE_END;
-    this.add(botaoSair, cons);
-    ExitListener el = new ExitListener();
-		botaoSair.addActionListener(el);
+    painelMudarNota.add(novaNota, cons);
+    cons.fill = GridBagConstraints.BOTH;
+    this.add(painelMudarNota, cons);
   }
 
   public void configChefe(Chefe u){
@@ -449,14 +425,7 @@ public class JanelaPrincipal extends Frame{
 
     GridBagConstraints cons = new GridBagConstraints();
     cons.fill = GridBagConstraints.BOTH;
-    cons.insets = new Insets(10, 10, 10, 10);
-
-    infoUsuario = new Label("Area de "+u);
-    cons.anchor = GridBagConstraints.PAGE_START;
-    cons.gridy = 0;
-    cons.weightx = 1;
-    cons.gridheight = 1;
-    this.add(infoUsuario, cons);
+    cons.insets = new Insets(5, 10, 5, 10);
 
     // BOTAO CADASTRAR MATERIA //
     btnCadastrarMateria = new Button("Cadastrar nova matéria");
@@ -519,17 +488,6 @@ public class JanelaPrincipal extends Frame{
     this.add(confirmarPedido, cons);
     BtnListenerChefe fp = new BtnListenerChefe(u);
 		confirmarPedido.addActionListener(fp);
-
-    // BOTAO DE SAIR //
-    botaoSair = new Button("SAIR");
-    cons.gridy = 6;
-    cons.weightx = 0.5;
-    cons.gridheight = 1;
-    cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LAST_LINE_END;
-    this.add(botaoSair, cons);
-    ExitListener el = new ExitListener();
-		botaoSair.addActionListener(el);
   }
 
   public void configTesoureiro(Tesoureiro u){
@@ -538,21 +496,13 @@ public class JanelaPrincipal extends Frame{
 
     GridBagConstraints cons = new GridBagConstraints();
     cons.fill = GridBagConstraints.BOTH;
-    cons.insets = new Insets(10, 10, 10, 10);
-
-    infoUsuario = new Label("Area de "+u);
-    cons.anchor = GridBagConstraints.PAGE_START;
-    cons.gridy = 0;
-    cons.weightx = 1;
-    cons.gridwidth = 2;
-    cons.gridheight = 1;
-    this.add(infoUsuario, cons);
+    cons.insets = new Insets(5, 10, 5, 10);
 
     // SELECIONAR PROFESSOR //
-    cons.gridy += 1;
+    cons.gridy = 1;
     cons.gridx = 0;
     cons.weightx = 1;
-    cons.gridwidth = 2;
+    cons.gridwidth = GridBagConstraints.REMAINDER;
     cons.gridheight = 1;
     cons.anchor = GridBagConstraints.CENTER;
     this.add(new Label("SELECIONE UM PROFESSOR PARA MUDAR O SALARIO"), cons);
@@ -563,21 +513,21 @@ public class JanelaPrincipal extends Frame{
     }
     cons.gridy += 1;
     cons.gridx = 0;
-    cons.weightx = 1;
-    cons.gridwidth = 2;
+    cons.weightx = 2;
+    cons.gridwidth = 1;
     cons.gridheight = 1;
     this.add(listaProfessores, cons);
     ListListenerTes lp = new ListListenerTes();
     listaProfessores.addItemListener(lp);
 
-    dadosProfessor = new TextArea(4, 32);
-    cons.gridx = 2;
+    dadosProfessor = new TextArea(4, 26);
+    cons.gridx = 1;
     cons.gridwidth = GridBagConstraints.REMAINDER;
     cons.weightx = 1;
     cons.gridheight = 1;
     this.add(dadosProfessor, cons);
 
-    novoSalario = TextArea(1, 6);
+    novoSalario = new TextArea("valor/matéria", 1, 6, TextArea. SCROLLBARS_NONE);
     cons.gridy += 1;
     cons.gridx = 0;
     cons.weightx = 1;
@@ -585,7 +535,7 @@ public class JanelaPrincipal extends Frame{
     cons.gridheight = 1;
     this.add(novoSalario, cons);
 
-    calcularNovoSalario = Button("Calcular");
+    calcularNovoSalario = new Button("Calcular");
     cons.gridx = 1;
     cons.weightx = 1;
     cons.gridwidth = 1;
@@ -594,15 +544,15 @@ public class JanelaPrincipal extends Frame{
     BtnListenerTes cn = new BtnListenerTes();
     calcularNovoSalario.addActionListener(cn);
 
-    valorNovoSalario = Label("novo salario");
+    valorNovoSalario = new Label("novo salario");
     cons.gridy += 1;
-    cons.gridx = 1;
+    cons.gridx = 0;
     cons.weightx = 1;
     cons.gridwidth = 1;
     cons.gridheight = 1;
-    this.add(calcularNovoSalario, cons);
+    this.add(valorNovoSalario, cons);
 
-    confirmarNovoSalario = Button("Confirmar valor");
+    confirmarNovoSalario = new Button("Confirmar valor");
     cons.gridx = 1;
     cons.weightx = 1;
     cons.gridwidth = 1;
@@ -610,19 +560,5 @@ public class JanelaPrincipal extends Frame{
     this.add(confirmarNovoSalario, cons);
     BtnListenerTes cl = new BtnListenerTes();
     confirmarNovoSalario.addActionListener(cl);
-
-    // BOTAO DE SAIR //
-    botaoSair = new Button("SAIR");
-    cons.gridy = 6;
-    cons.weightx = 0.5;
-    cons.gridheight = 1;
-    cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LAST_LINE_END;
-    this.add(botaoSair, cons);
-    ExitListener el = new ExitListener();
-		botaoSair.addActionListener(el);
   }
-
-
-
 }

@@ -13,7 +13,7 @@ public class T3{
 	public static void main(String[] args) throws IOException{
 		cadastra();
 		System.out.println("\nBem-vindo ao Magister");
-		janelaLogin = new JanelaPrincipal(usuarios.get(1234570));
+		janelaLogin = new JanelaPrincipal(null);
 	}
 
 	static void cadastra() throws IOException{
