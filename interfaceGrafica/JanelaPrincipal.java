@@ -149,6 +149,50 @@ public class JanelaPrincipal extends Frame{
 	}
 
   // Tesoureiro
+  private List listaProfessores;
+  private TextArea dadosProfessor;
+  private Professor professorSelecionado = null;
+  private TextArea novoSalario;
+  private Label valorNovoSalario;
+  private Button calcularNovoSalario;
+  private Button confirmarNovoSalario;
+  private int valor;
+  class BtnListenerTes implements ActionListener{
+    public void actionPerformed( ActionEvent e) {
+      if(e.getSource().getLabel().equals("Calcular")){
+        try{
+          valor = Integer.parseInt(novoSalario.getText());
+          valorNovoSalario.setText(valor*professorSelecionado.getMaterias().size());
+        }catch (Exception ex){
+          valorNovoSalario.setText("entrada invalida");
+        }
+      }else{
+        try{
+          valor = Integer.parseInt(novoSalario.getText());
+          valorNovoSalario.setText(valor*professorSelecionado.getMaterias().size());
+        }catch (Exception ex){
+          valorNovoSalario.setText("entrada invalida");
+        }
+      }
+    }
+  }
+  class ListListenerTes implements ItemListener {
+		public void itemStateChanged( ItemEvent e) {
+      String selecionado = listaProfessores.getSelectedItem();
+      for(Professor p: Tesoureiro.getProfessores()){
+        if(p.toString().equals(selecionado)){
+          professorSelecionado = p;
+          break;
+        }
+      }
+      if(professorSelecionado != null){
+        dadosProfessor.setText(professorSelecionado.getNomeCompleto()+"\n");
+        dadosProfessor.append("Ministra "+professorSelecionado.getMaterias().size()+" matérias\n");
+        dadosProfessor.append("e recebe "+(professorSelecionado.getSalario()/professorSelecionado.getMaterias().size())+" por matéria,\n");
+        dadosProfessor.append("totalizando R$"+professorSelecionado.getSalario()+",00");
+      }
+		}
+	}
 
   // Login
   private TextArea campoSenha;
@@ -489,7 +533,94 @@ public class JanelaPrincipal extends Frame{
   }
 
   public void configTesoureiro(Tesoureiro u){
+    GridBagLayout layout = new GridBagLayout();
+    this.setLayout(layout);
 
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.fill = GridBagConstraints.BOTH;
+    cons.insets = new Insets(10, 10, 10, 10);
+
+    infoUsuario = new Label("Area de "+u);
+    cons.anchor = GridBagConstraints.PAGE_START;
+    cons.gridy = 0;
+    cons.weightx = 1;
+    cons.gridwidth = 2;
+    cons.gridheight = 1;
+    this.add(infoUsuario, cons);
+
+    // SELECIONAR PROFESSOR //
+    cons.gridy += 1;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridwidth = 2;
+    cons.gridheight = 1;
+    cons.anchor = GridBagConstraints.CENTER;
+    this.add(new Label("SELECIONE UM PROFESSOR PARA MUDAR O SALARIO"), cons);
+    // PAINEL DE PROFESSORES //
+    listaProfessores = new List();
+    for(Professor p: Tesoureiro.getProfessores()){
+      listaProfessores.add(p.toString());
+    }
+    cons.gridy += 1;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridwidth = 2;
+    cons.gridheight = 1;
+    this.add(listaProfessores, cons);
+    ListListenerTes lp = new ListListenerTes();
+    listaProfessores.addItemListener(lp);
+
+    dadosProfessor = new TextArea(4, 32);
+    cons.gridx = 2;
+    cons.gridwidth = GridBagConstraints.REMAINDER;
+    cons.weightx = 1;
+    cons.gridheight = 1;
+    this.add(dadosProfessor, cons);
+
+    novoSalario = TextArea(1, 6);
+    cons.gridy += 1;
+    cons.gridx = 0;
+    cons.weightx = 1;
+    cons.gridwidth = 1;
+    cons.gridheight = 1;
+    this.add(novoSalario, cons);
+
+    calcularNovoSalario = Button("Calcular");
+    cons.gridx = 1;
+    cons.weightx = 1;
+    cons.gridwidth = 1;
+    cons.gridheight = 1;
+    this.add(calcularNovoSalario, cons);
+    BtnListenerTes cn = new BtnListenerTes();
+    calcularNovoSalario.addActionListener(cn);
+
+    valorNovoSalario = Label("novo salario");
+    cons.gridy += 1;
+    cons.gridx = 1;
+    cons.weightx = 1;
+    cons.gridwidth = 1;
+    cons.gridheight = 1;
+    this.add(calcularNovoSalario, cons);
+
+    confirmarNovoSalario = Button("Confirmar valor");
+    cons.gridx = 1;
+    cons.weightx = 1;
+    cons.gridwidth = 1;
+    cons.gridheight = 1;
+    this.add(confirmarNovoSalario, cons);
+    BtnListenerTes cl = new BtnListenerTes();
+    confirmarNovoSalario.addActionListener(cl);
+
+    // BOTAO DE SAIR //
+    botaoSair = new Button("SAIR");
+    cons.gridy = 6;
+    cons.weightx = 0.5;
+    cons.gridheight = 1;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LAST_LINE_END;
+    this.add(botaoSair, cons);
+    ExitListener el = new ExitListener();
+		botaoSair.addActionListener(el);
   }
 
 

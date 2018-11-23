@@ -21,12 +21,12 @@ public class Tesoureiro extends Administrador{
 
   }
 
-  public String toString(){
-    return "Tesoureiro "+this.getNomeCompleto() + " de matricula "+this.getMatricula();
+  static Vector<Professor> getProfessores(){
+    return Tesoureiro.listaProfessores;
   }
 
-  void configuraJanela(JanelaPrincipal janela){
-
+  public String toString(){
+    return "Tesoureiro "+this.getNomeCompleto() + " de matricula "+this.getMatricula();
   }
 
   void area() throws IOException{
